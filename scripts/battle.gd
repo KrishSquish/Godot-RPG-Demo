@@ -5,7 +5,7 @@ var changeScene = false
 var enemyTurn = false
 var playerDead = false
 var startingPlayerStats = [PlayerStats.defence, PlayerStats.attack]
-var startingEnemyStats = [Enemy.defence, Enemy.attack, Enemy.currentHealth]
+var startingEnemyStats = [Enemy.defence, Enemy.attack]
 func _ready():
 	$TextureRect/EnemyBattleChar/Enemy.play("default")
 	setHealth($ActionPanel/HealthBar, PlayerStats.currentHealth, PlayerStats.maxHealth)
