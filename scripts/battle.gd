@@ -1,12 +1,12 @@
 extends Control
 #make sure sweetheart attacks are shown 
 # Called when the node enters the scene tree for the first time.
+var changeScene = false
 var enemyTurn = false
-var enemyDead = false
+var playerDead = false
 var startingPlayerStats = [PlayerStats.defence, PlayerStats.attack]
-var startingEnemyStats = [Enemy.defence, Enemy.attack]
+var startingEnemyStats = [Enemy.defence, Enemy.attack, Enemy.currentHealth]
 func _ready():
-	Enemy.currentHealth = 5
 	$TextureRect/EnemyBattleChar/Enemy.play("default")
 	setHealth($ActionPanel/HealthBar, PlayerStats.currentHealth, PlayerStats.maxHealth)
 	setHealth($HealthBar, Enemy.currentHealth, Enemy.maxHealth)
@@ -26,20 +26,27 @@ func _input(event):
 		$ActionPanel/Heal.show()
 		$ActionPanel/PlayerAction.hide()
 		$TextureRect/EnemyBattleChar/Enemy.play("default")
-		if enemyDead == true:
+		if changeScene == true:
 				PlayerStats.defence = startingPlayerStats[0]
 				PlayerStats.attack = startingPlayerStats[1]
 				Enemy.defence = startingEnemyStats[0]
 				Enemy.attack = startingEnemyStats[1]
+				Enemy.currentHealth = Enemy.maxHealth
+				if PlayerStats.currentHealth == 0:
+					PlayerStats.currentHealth = PlayerStats.maxHealth
 				get_tree().change_scene_to_file("res://scenes/main.tscn")	
 				#Enemy.removeEnemy()
 		if enemyTurn == true:
 			if Enemy.currentHealth == 0:
 				displayText("\"No... I can't die just yet...\"")
 				$TextureRect/EnemyBattleChar/Enemy.play("dead")
-				enemyDead = true
+				changeScene = true
 			else:
-				enemy_turn()		
+				enemy_turn()	
+		else:
+			if PlayerStats.currentHealth == 0:
+				displayText("\"Muahahaha... I told you not to challenge me!\"")
+				changeScene = true
 
 		
 func displayText(text):
