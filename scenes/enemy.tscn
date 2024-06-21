@@ -1,0 +1,62 @@
+[gd_scene load_steps=8 format=3 uid="uid://cnkv31jo8hrrq"]
+
+[ext_resource type="Script" path="res://scripts/enemy.gd" id="1_ggsgb"]
+[ext_resource type="Texture2D" uid="uid://dempfyxmpjiwy" path="res://art/Sweetheart_Sprite.webp" id="1_vkodl"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iggh0"]
+atlas = ExtResource("1_vkodl")
+region = Rect2(0, 0, 64, 72)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_afirc"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iggh0")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_oegvx"]
+radius = 116.774
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hg62n"]
+size = Vector2(69.7691, 73.3334)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_w6vg4"]
+size = Vector2(32, 32)
+
+[node name="Enemy" type="CharacterBody2D"]
+z_index = 1
+y_sort_enabled = true
+position = Vector2(0, -1)
+scale = Vector2(0.599999, 0.599999)
+script = ExtResource("1_ggsgb")
+
+[node name="Sprites" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -10)
+sprite_frames = SubResource("SpriteFrames_afirc")
+
+[node name="detectionBox" type="Area2D" parent="."]
+scale = Vector2(1.53333, 1.53333)
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="detectionBox"]
+shape = SubResource("CircleShape2D_oegvx")
+
+[node name="EnemyHitbox" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyHitbox"]
+position = Vector2(2.98023e-08, -5.00001)
+scale = Vector2(0.959673, 1)
+shape = SubResource("RectangleShape2D_hg62n")
+
+[node name="CollisionBox" type="CollisionShape2D" parent="."]
+position = Vector2(0, 15)
+shape = SubResource("RectangleShape2D_w6vg4")
+
+[connection signal="body_entered" from="detectionBox" to="." method="_on_detection_box_body_entered"]
+[connection signal="body_exited" from="detectionBox" to="." method="_on_detection_box_body_exited"]
+[connection signal="area_entered" from="EnemyHitbox" to="." method="_on_enemy_hitbox_area_entered"]

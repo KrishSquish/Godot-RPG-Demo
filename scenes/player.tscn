@@ -1,0 +1,161 @@
+[gd_scene load_steps=15 format=3 uid="uid://oy4wv5xampf"]
+
+[ext_resource type="Texture2D" uid="uid://b65kjf1v6fpeh" path="res://art/OmoriWalkSprites.png" id="1_85cl0"]
+[ext_resource type="Script" path="res://scripts/player.gd" id="1_enjxm"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vc8r3"]
+size = Vector2(16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_747n1"]
+atlas = ExtResource("1_85cl0")
+region = Rect2(33, 106, 33, 33)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cs3p0"]
+atlas = ExtResource("1_85cl0")
+region = Rect2(66, 106, 33, 33)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_88ka7"]
+atlas = ExtResource("1_85cl0")
+region = Rect2(0, 106, 33, 33)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_213tq"]
+atlas = ExtResource("1_85cl0")
+region = Rect2(33, 6, 33, 33)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3yg1j"]
+atlas = ExtResource("1_85cl0")
+region = Rect2(66, 6, 33, 33)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ijbua"]
+atlas = ExtResource("1_85cl0")
+region = Rect2(0, 6, 33, 33)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_py7p2"]
+atlas = ExtResource("1_85cl0")
+region = Rect2(33, 39, 33, 33)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5dlup"]
+atlas = ExtResource("1_85cl0")
+region = Rect2(0, 39, 33, 33)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e6c6p"]
+atlas = ExtResource("1_85cl0")
+region = Rect2(66, 39, 33, 33)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ken7u"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_747n1")
+}],
+"loop": true,
+"name": &"back_idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cs3p0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_747n1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_88ka7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_747n1")
+}],
+"loop": true,
+"name": &"back_walk",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_213tq")
+}],
+"loop": true,
+"name": &"front_idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3yg1j")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_213tq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ijbua")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_213tq")
+}],
+"loop": true,
+"name": &"front_walk",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_py7p2")
+}],
+"loop": true,
+"name": &"side_idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5dlup")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_py7p2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e6c6p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_py7p2")
+}],
+"loop": true,
+"name": &"side_walk",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mwxa0"]
+size = Vector2(16, 48)
+
+[node name="player" type="CharacterBody2D"]
+z_index = 1
+collision_layer = 3
+script = ExtResource("1_enjxm")
+
+[node name="CollisionBox" type="CollisionShape2D" parent="."]
+z_index = 1
+shape = SubResource("RectangleShape2D_vc8r3")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(-1, -8)
+sprite_frames = SubResource("SpriteFrames_ken7u")
+animation = &"front_idle"
+
+[node name="PlayerHitbox" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerHitbox"]
+position = Vector2(0, -2.38419e-07)
+scale = Vector2(1.08, 0.365392)
+shape = SubResource("RectangleShape2D_mwxa0")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+visible = false
+zoom = Vector2(2, 2)
+limit_left = 0
+limit_top = 25
+limit_right = 850
+limit_bottom = 675
+drag_horizontal_enabled = true
+drag_vertical_enabled = true
+drag_left_margin = 0.1
+drag_top_margin = 0.1
+drag_right_margin = 0.1
+drag_bottom_margin = 0.1
+
+[connection signal="area_entered" from="PlayerHitbox" to="." method="_on_player_hitbox_area_entered"]

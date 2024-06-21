@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://thng08dsc7vn"]
+
+[ext_resource type="PackedScene" uid="uid://oy4wv5xampf" path="res://scenes/player.tscn" id="4_0eaow"]
+[ext_resource type="PackedScene" uid="uid://cnkv31jo8hrrq" path="res://scenes/enemy.tscn" id="5_qwm0k"]
+[ext_resource type="PackedScene" uid="uid://dpl6r8v1hajxk" path="res://scenes/npc.tscn" id="6_txxlg"]
+
+[node name="main" type="Node2D"]
+z_index = 1
+y_sort_enabled = true
+
+[node name="player" parent="." instance=ExtResource("4_0eaow")]
+y_sort_enabled = true
+position = Vector2(-243, -44)
+
+[node name="Enemy" parent="." instance=ExtResource("5_qwm0k")]
+position = Vector2(-186, -95)
+scale = Vector2(0.462411, 0.462411)
+
+[node name="NPC" parent="." instance=ExtResource("6_txxlg")]
+position = Vector2(-180, -14)
